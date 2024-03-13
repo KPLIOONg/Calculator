@@ -1,145 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
+<script>
+    let currentInput = '';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futuristic Calculator</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
+    function appendNumber(number) {
+        currentInput += number;
+        updateDisplay();
+    }
 
-<body class="bg-gradient-to-b from-purple-800 to-indigo-900 text-white h-screen flex flex-col justify-center items-center">
-
-    <div class="bg-gray-800 p-8 rounded-md shadow-md max-w-2xl w-full">
-        <h1 class="text-4xl font-bold mb-6 text-center">Futuristic Calculator</h1>
-
-        <div class="grid grid-cols-5 gap-4">
-            <button onclick="clearInput()" class="calc-button bg-red-500 col-span-2">C</button>
-            <button onclick="deleteLastChar()" class="calc-button bg-red-500 col-span-2">DEL</button>
-
-            <button onclick="performOperation('**')" class="calc-button bg-gray-700 col-span-2">^</button>
-            <button onclick="calculateSquareRoot()" class="calc-button bg-gray-700 col-span-2">√</button>
-
-            <button onclick="appendNumber('7')" class="calc-button">7</button>
-            <button onclick="appendNumber('8')" class="calc-button">8</button>
-            <button onclick="appendNumber('9')" class="calc-button">9</button>
-            <button onclick="performOperation('*')" class="calc-button bg-gray-700">x</button>
-
-            <button onclick="appendNumber('4')" class="calc-button">4</button>
-            <button onclick="appendNumber('5')" class="calc-button">5</button>
-            <button onclick="appendNumber('6')" class="calc-button">6</button>
-            <button onclick="performOperation('-')" class="calc-button bg-gray-700">-</button>
-
-            <button onclick="appendNumber('1')" class="calc-button">1</button>
-            <button onclick="appendNumber('2')" class="calc-button">2</button>
-            <button onclick="appendNumber('3')" class="calc-button">3</button>
-            <button onclick="performOperation('+')" class="calc-button bg-gray-700">+</button>
-
-            <button onclick="appendNumber('0')" class="calc-button col-span-2">0</button>
-            <button onclick="appendDecimal()" class="calc-button">.</button>
-            <button onclick="calculateResult()" class="calc-button bg-green-500 col-span-2">=</button>
-
-            <button onclick="calculateSin()" class="calc-button">sin</button>
-            <button onclick="calculateCos()" class="calc-button">cos</button>
-            <button onclick="calculateTan()" class="calc-button">tan</button>
-
-            <button onclick="calculateLogarithm()" class="calc-button">log</button>
-            <button onclick="calculateExponential()" class="calc-button">e^x</button>
-
-            <button onclick="calculatePi()" class="calc-button">π</button>
-            <button onclick="calculateEuler()" class="calc-button">e</button>
-        </div>
-
-        <div class="mt-6">
-            <input type="text" id="display" class="w-full p-4 bg-gray-700 rounded-md text-right text-2xl" disabled>
-        </div>
-    </div>
-
-    <script>
-        let currentInput = '';
-
-        function appendNumber(number) {
-            currentInput += number;
+    function appendDecimal() {
+        if (!currentInput.includes('.')) {
+            currentInput += '.';
             updateDisplay();
         }
+    }
 
-        function appendDecimal() {
-            if (!currentInput.includes('.')) {
-                currentInput += '.';
-                updateDisplay();
-            }
-        }
+    function performOperation(operator) {
+        currentInput += ` ${operator} `;
+        updateDisplay();
+    }
 
-        function performOperation(operator) {
-            currentInput += ` ${operator} `;
+    function calculateResult() {
+        try {
+            currentInput = eval(currentInput).toString();
             updateDisplay();
-        }
-
-        function calculateResult() {
-            try {
-                currentInput = eval(currentInput).toString();
-                updateDisplay();
-            } catch (error) {
-                currentInput = '';
-                updateDisplay('Error');
-            }
-        }
-
-        function calculateSquareRoot() {
-            currentInput = Math.sqrt(parseFloat(currentInput)).toString();
-            updateDisplay();
-        }
-
-        function calculateExponential() {
-            currentInput = Math.exp(parseFloat(currentInput)).toString();
-            updateDisplay();
-        }
-
-        function calculateLogarithm() {
-            currentInput = Math.log10(parseFloat(currentInput)).toString();
-            updateDisplay();
-        }
-
-        function calculateSin() {
-            currentInput = Math.sin(parseFloat(currentInput)).toString();
-            updateDisplay();
-        }
-
-        function calculateCos() {
-            currentInput = Math.cos(parseFloat(currentInput)).toString();
-            updateDisplay();
-        }
-
-        function calculateTan() {
-            currentInput = Math.tan(parseFloat(currentInput)).toString();
-            updateDisplay();
-        }
-
-        function calculatePi() {
-            currentInput += Math.PI.toString();
-            updateDisplay();
-        }
-
-        function calculateEuler() {
-            currentInput += Math.E.toString();
-            updateDisplay();
-        }
-
-        function clearInput() {
+        } catch (error) {
             currentInput = '';
-            updateDisplay();
+            updateDisplay('Error');
         }
+    }
 
-        function deleteLastChar() {
-            currentInput = currentInput.slice(0, -1);
-            updateDisplay();
-        }
+    function calculateSquareRoot() {
+        currentInput = Math.sqrt(parseFloat(currentInput)).toString();
+        updateDisplay();
+    }
 
-        function updateDisplay(value = currentInput) {
-            document.getElementById('display').value = value;
-        }
-    </script>
+    function calculateExponential() {
+        currentInput = Math.exp(parseFloat(currentInput)).toString();
+        updateDisplay();
+    }
 
-</body>
+    function calculateLogarithm() {
+        currentInput = Math.log10(parseFloat(currentInput)).toString();
+        updateDisplay();
+    }
 
-</html>
+    function calculateSin() {
+        currentInput = Math.sin(parseFloat(currentInput) * Math.PI / 180).toString();
+        updateDisplay();
+    }
+
+    function calculateCos() {
+        currentInput = Math.cos(parseFloat(currentInput) * Math.PI / 180).toString();
+        updateDisplay();
+    }
+
+    function calculateTan() {
+        currentInput = Math.tan(parseFloat(currentInput) * Math.PI / 180).toString();
+        updateDisplay();
+    }
+
+    function calculatePi() {
+        currentInput += Math.PI.toString();
+        updateDisplay();
+    }
+
+    function calculateEuler() {
+        currentInput += Math.E.toString();
+        updateDisplay();
+    }
+
+    function clearInput() {
+        currentInput = '';
+        updateDisplay();
+    }
+
+    function deleteLastChar() {
+        currentInput = currentInput.slice(0, -1);
+        updateDisplay();
+    }
+
+    function updateDisplay(value = currentInput) {
+        document.getElementById('display').value = value;
+    }
+</script>
